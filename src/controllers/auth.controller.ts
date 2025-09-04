@@ -513,3 +513,259 @@ export const changePassword = async (req: Request, res: Response) => {
         });
     }
 };
+
+// ===== FUNÇÕES DE GERENCIAMENTO DE USUÁRIOS (ADMIN) =====
+
+// Listar todos os usuários (apenas admin)
+export const getAllUsers = async (req: Request, res: Response) => {
+    try {
+        const currentUserAccessLevel = req.user?.accessLevel;
+
+        if (currentUserAccessLevel !== 'admin') {
+            return res.status(403).json({
+                success: false,
+                message: 'Acesso negado. Apenas administradores podem listar usuários.'
+            });
+        }
+
+        const users = await User.findAll({
+            attributes: { exclude: ['password'] },
+            order: [['createdAt', 'DESC']]
+        });
+
+        res.json({
+            success: true,
+            message: 'Usuários listados com sucesso!',
+            data: {
+                users: users.map(user => ({
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
+                    fullName: user.fullName,
+                    accessLevel: user.accessLevel,
+                    createdAt: user.createdAt,
+                    updatedAt: user.updatedAt
+                }))
+            }
+        });
+    } catch (error: any) {
+        console.error('Erro ao listar usuários:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erro interno do servidor',
+            error: error.message
+        });
+    }
+};
+
+// Criar usuário (apenas admin)
+export const createUserByAdmin = async (req: Request, res: Response) => {
+    try {
+        const currentUserAccessLevel = req.user?.accessLevel;
+
+        if (currentUserAccessLevel !== 'admin') {
+            return res.status(403).json({
+                success: false,
+                message: 'Acesso negado. Apenas administradores podem criar usuários.'
+            });
+        }
+
+        const { username, email, fullName, accessLevel = 'editor', password }: RegisterData = req.body;
+
+        // Verificar se usuário já existe
+        const existingUser = await User.findOne({
+            where: {
+                [Op.or]: [
+                    { username },
+                    { email }
+                ]
+            }
+        });
+
+        if (existingUser) {
+            return res.status(409).json({
+                success: false,
+                message: 'Username ou email já existe'
+            });
+        }
+
+        // Hash da senha
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Criar usuário
+        const newUser = await User.create({
+            username,
+            email,
+            fullName,
+            accessLevel,
+            password: hashedPassword
+        });
+
+        res.status(201).json({
+            success: true,
+            message: 'Usuário criado com sucesso!',
+            data: {
+                user: {
+                    id: newUser.id,
+                    username: newUser.username,
+                    email: newUser.email,
+                    fullName: newUser.fullName,
+                    accessLevel: newUser.accessLevel,
+                    createdAt: newUser.createdAt,
+                    updatedAt: newUser.updatedAt
+                }
+            }
+        });
+    } catch (error: any) {
+        console.error('Erro ao criar usuário:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erro interno do servidor',
+            error: error.message
+        });
+    }
+};
+
+// Atualizar usuário por ID (apenas admin)
+export const updateUserById = async (req: Request, res: Response) => {
+    try {
+        const currentUserAccessLevel = req.user?.accessLevel;
+        const currentUserId = req.user?.userId;
+        const { id } = req.params;
+        const userData: UserData = req.body;
+
+        if (currentUserAccessLevel !== 'admin') {
+            return res.status(403).json({
+                success: false,
+                message: 'Acesso negado. Apenas administradores podem atualizar usuários.'
+            });
+        }
+
+        const userId = parseInt(id);
+        if (isNaN(userId)) {
+            return res.status(400).json({
+                success: false,
+                message: 'ID de usuário inválido'
+            });
+        }
+
+        const user = await User.findByPk(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'Usuário não encontrado'
+            });
+        }
+
+        // Verificar se email já existe (se estiver sendo alterado)
+        if (userData.email && userData.email !== user.email) {
+            const existingUser = await User.findOne({
+                where: { email: userData.email }
+            });
+
+            if (existingUser) {
+                return res.status(409).json({
+                    success: false,
+                    message: 'Email já está em uso'
+                });
+            }
+        }
+
+        // Verificar se username já existe (se estiver sendo alterado)
+        if (userData.username && userData.username !== user.username) {
+            const existingUser = await User.findOne({
+                where: { username: userData.username }
+            });
+
+            if (existingUser) {
+                return res.status(409).json({
+                    success: false,
+                    message: 'Username já está em uso'
+                });
+            }
+        }
+
+        // Atualizar dados
+        await user.update(userData);
+
+        res.json({
+            success: true,
+            message: 'Usuário atualizado com sucesso!',
+            data: {
+                user: {
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
+                    fullName: user.fullName,
+                    accessLevel: user.accessLevel,
+                    createdAt: user.createdAt,
+                    updatedAt: user.updatedAt
+                }
+            }
+        });
+    } catch (error: any) {
+        console.error('Erro ao atualizar usuário:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erro interno do servidor',
+            error: error.message
+        });
+    }
+};
+
+// Deletar usuário por ID (apenas admin)
+export const deleteUserById = async (req: Request, res: Response) => {
+    try {
+        const currentUserAccessLevel = req.user?.accessLevel;
+        const currentUserId = req.user?.userId;
+        const { id } = req.params;
+
+        if (currentUserAccessLevel !== 'admin') {
+            return res.status(403).json({
+                success: false,
+                message: 'Acesso negado. Apenas administradores podem deletar usuários.'
+            });
+        }
+
+        const userId = parseInt(id);
+        if (isNaN(userId)) {
+            return res.status(400).json({
+                success: false,
+                message: 'ID de usuário inválido'
+            });
+        }
+
+        // Não permitir que o usuário delete a si mesmo
+        if (userId === currentUserId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Você não pode deletar sua própria conta'
+            });
+        }
+
+        const user = await User.findByPk(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'Usuário não encontrado'
+            });
+        }
+
+        await user.destroy();
+
+        res.json({
+            success: true,
+            message: 'Usuário deletado com sucesso!'
+        });
+    } catch (error: any) {
+        console.error('Erro ao deletar usuário:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erro interno do servidor',
+            error: error.message
+        });
+    }
+};

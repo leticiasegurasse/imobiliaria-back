@@ -9,7 +9,11 @@ import {
     resetPassword,
     getProfile,
     updateProfile,
-    changePassword
+    changePassword,
+    getAllUsers,
+    createUserByAdmin,
+    updateUserById,
+    deleteUserById
 } from '../controllers/auth.controller';
 import { authenticateToken } from '../middlewares/authMiddleware';
 import { validateRegister, validateLogin, validateProfileUpdate } from '../middlewares/validationMiddleware';
@@ -30,5 +34,11 @@ authRoutes.get('/verify-token', authenticateToken, asyncMiddleware(verifyToken))
 authRoutes.get('/profile', authenticateToken, asyncMiddleware(getProfile));
 authRoutes.put('/profile', authenticateToken, validateProfileUpdate, asyncMiddleware(updateProfile));
 authRoutes.post('/change-password', authenticateToken, asyncMiddleware(changePassword));
+
+// Rotas de gerenciamento de usuários (apenas admin)
+authRoutes.get('/profile/all', authenticateToken, asyncMiddleware(getAllUsers));
+authRoutes.post('/profile/create', authenticateToken, validateRegister, asyncMiddleware(createUserByAdmin));
+authRoutes.put('/profile/:id', authenticateToken, validateProfileUpdate, asyncMiddleware(updateUserById));
+authRoutes.delete('/profile/:id', authenticateToken, asyncMiddleware(deleteUserById));
 
 export default authRoutes;
