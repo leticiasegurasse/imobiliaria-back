@@ -4,8 +4,10 @@ import { DataTypes, Model, Sequelize } from 'sequelize';
 interface UserAttributes {
     id?: number;
     username: string;
+    email: string;
+    fullName: string;
+    accessLevel: 'admin' | 'editor';
     password: string;
-    email?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -15,8 +17,10 @@ export default (sequelize: Sequelize) => {
     class User extends Model<UserAttributes> implements UserAttributes {
         public id!: number;
         public username!: string;
+        public email!: string;
+        public fullName!: string;
+        public accessLevel!: 'admin' | 'editor';
         public password!: string;
-        public email?: string;
         public readonly createdAt!: Date;
         public readonly updatedAt!: Date;
     }
@@ -37,6 +41,31 @@ export default (sequelize: Sequelize) => {
                     notEmpty: true,
                 },
             },
+            email: {
+                type: DataTypes.STRING(100),
+                allowNull: false,
+                unique: true,
+                validate: {
+                    isEmail: true,
+                    notEmpty: true,
+                },
+            },
+            fullName: {
+                type: DataTypes.STRING(100),
+                allowNull: false,
+                validate: {
+                    len: [2, 100],
+                    notEmpty: true,
+                },
+            },
+            accessLevel: {
+                type: DataTypes.ENUM('admin', 'editor'),
+                allowNull: false,
+                defaultValue: 'editor',
+                validate: {
+                    isIn: [['admin', 'editor']],
+                },
+            },
             password: {
                 type: DataTypes.STRING,
                 allowNull: false,
@@ -45,15 +74,6 @@ export default (sequelize: Sequelize) => {
                     notEmpty: true,
                 },
             },
-            email: {
-                type: DataTypes.STRING(100),
-                allowNull: true,
-                unique: true,
-                validate: {
-                    isEmail: true,
-                },
-            },
-
         },
         {
             sequelize,
@@ -68,6 +88,9 @@ export default (sequelize: Sequelize) => {
                 {
                     unique: true,
                     fields: ['email'],
+                },
+                {
+                    fields: ['accessLevel'],
                 },
             ],
         }

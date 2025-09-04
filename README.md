@@ -5,12 +5,13 @@ Este é o backend da aplicação, configurado com apenas as funcionalidades esse
 ## 🚀 Funcionalidades
 
 ### Autenticação
-- ✅ Registro de usuários
+- ✅ Registro de usuários (username, email, nome completo, nível de acesso, senha)
 - ✅ Login/Logout
 - ✅ Renovação de tokens
 - ✅ Recuperação de senha
 - ✅ Gerenciamento de perfil
 - ✅ Middleware de autenticação JWT
+- ✅ Controle de acesso por nível (admin/editor)
 
 ### Upload de Arquivos
 - ✅ Upload de imagens
@@ -38,7 +39,7 @@ src/
 │   ├── auth.routes.ts      # Rotas de autenticação
 │   └── upload.routes.ts    # Rotas de upload
 ├── scripts/
-│   └── seed.ts            # Script para criar usuário admin
+│   └── seed.ts            # Script para criar usuários padrão
 └── server.ts              # Servidor principal
 ```
 
@@ -83,8 +84,29 @@ npm start
 ## 📡 Endpoints da API
 
 ### 🔐 Autenticação
-- `POST /api/auth/register` - Registrar usuário
-- `POST /api/auth/login` - Fazer login
+
+#### Registro de Usuário
+- `POST /api/auth/register`
+  ```json
+  {
+    "username": "usuario123",
+    "email": "usuario@email.com",
+    "fullName": "Nome Completo do Usuário",
+    "accessLevel": "editor",
+    "password": "senha123"
+  }
+  ```
+
+#### Login
+- `POST /api/auth/login`
+  ```json
+  {
+    "username": "usuario123",
+    "password": "senha123"
+  }
+  ```
+
+#### Outros Endpoints
 - `POST /api/auth/logout` - Fazer logout
 - `POST /api/auth/refresh` - Renovar token
 - `POST /api/auth/forgot-password` - Esqueci a senha
@@ -103,7 +125,7 @@ npm start
 - `GET /api/health` - Health check
 - `GET /` - Rota de teste
 
-## 🔒 Segurança
+## 🔒 Segurança e Controle de Acesso
 
 - **CORS** configurado para permitir requisições cross-origin
 - **Helmet** para headers de segurança
@@ -112,17 +134,50 @@ npm start
 - **Hash** de senhas com bcrypt
 - **Rate limiting** implícito através do Express
 
+### Níveis de Acesso
+- **`admin`**: Acesso total ao sistema
+- **`editor`**: Acesso limitado (pode ser usado para editores de conteúdo)
+
+### Middlewares de Autorização
+- **`authenticateToken`**: Verifica se o usuário está autenticado
+- **`requireAdmin`**: Restringe acesso apenas para administradores
+- **`requireAuth`**: Restringe acesso para usuários autenticados (admin ou editor)
+
 ## 📊 Banco de Dados
 
 - **PostgreSQL** como banco principal
 - **Sequelize** como ORM
 - **Migração automática** em desenvolvimento
-- **Seed** para criar usuário admin inicial
+- **Seed** para criar usuários padrão
 
-### Usuário Admin Padrão
-- **Username**: `admin`
-- **Password**: `admin123`
-- **Email**: `admin@admin.com`
+### Modelo de Usuário
+```typescript
+interface User {
+  id: number;
+  username: string;      // Único, 3-50 caracteres
+  email: string;         // Único, formato válido
+  fullName: string;      // 2-100 caracteres
+  accessLevel: 'admin' | 'editor'; // Nível de acesso
+  password: string;      // Hash com bcrypt
+  createdAt: Date;
+  updatedAt: Date;
+}
+```
+
+### Usuários Padrão
+- **Admin**:
+  - Username: `admin`
+  - Password: `admin123`
+  - Email: `admin@admin.com`
+  - Nome: `Administrador do Sistema`
+  - Nível: `admin`
+
+- **Editor**:
+  - Username: `editor`
+  - Password: `editor123`
+  - Email: `editor@admin.com`
+  - Nome: `Editor do Sistema`
+  - Nível: `editor`
 
 ## 🚨 Tratamento de Erros
 

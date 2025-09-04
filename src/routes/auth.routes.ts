@@ -12,7 +12,7 @@ import {
     changePassword
 } from '../controllers/auth.controller';
 import { authenticateToken } from '../middlewares/authMiddleware';
-import { validateRegister, validateLogin } from '../middlewares/validationMiddleware';
+import { validateRegister, validateLogin, validateProfileUpdate } from '../middlewares/validationMiddleware';
 import asyncMiddleware from '../middlewares/asyncMiddleware';
 
 const authRoutes = Router();
@@ -28,7 +28,7 @@ authRoutes.post('/reset-password', asyncMiddleware(resetPassword));
 // Rotas protegidas (requerem autenticação)
 authRoutes.get('/verify-token', authenticateToken, asyncMiddleware(verifyToken));
 authRoutes.get('/profile', authenticateToken, asyncMiddleware(getProfile));
-authRoutes.put('/profile', authenticateToken, asyncMiddleware(updateProfile));
+authRoutes.put('/profile', authenticateToken, validateProfileUpdate, asyncMiddleware(updateProfile));
 authRoutes.post('/change-password', authenticateToken, asyncMiddleware(changePassword));
 
 export default authRoutes;

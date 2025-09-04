@@ -7,8 +7,10 @@ import { User } from '../config/db';
 // Interface para dados de registro
 interface RegisterData {
     username: string;
+    email: string;
+    fullName: string;
+    accessLevel?: 'admin' | 'editor';
     password: string;
-    email?: string;
 }
 
 // Interface para dados de login
@@ -21,19 +23,21 @@ interface LoginData {
 interface UserData {
     username?: string;
     email?: string;
+    fullName?: string;
+    accessLevel?: 'admin' | 'editor';
 }
 
 // Registrar novo usuário
 export const registerUser = async (req: Request, res: Response) => {
     try {
-        const { username, password, email }: RegisterData = req.body;
+        const { username, email, fullName, accessLevel = 'editor', password }: RegisterData = req.body;
 
         // Verificar se usuário já existe
         const existingUser = await User.findOne({
             where: {
                 [Op.or]: [
                     { username },
-                    ...(email ? [{ email }] : [])
+                    { email }
                 ]
             }
         });
@@ -52,13 +56,15 @@ export const registerUser = async (req: Request, res: Response) => {
         // Criar usuário
         const newUser = await User.create({
             username,
-            password: hashedPassword,
-            email
+            email,
+            fullName,
+            accessLevel,
+            password: hashedPassword
         });
 
         // Gerar token JWT
         const token = jwt.sign(
-            { userId: newUser.id, username: newUser.username },
+            { userId: newUser.id, username: newUser.username, accessLevel: newUser.accessLevel },
             process.env.JWT_SECRET || 'your-secret-key',
             { expiresIn: '24h' }
         );
@@ -70,7 +76,9 @@ export const registerUser = async (req: Request, res: Response) => {
                 user: {
                     id: newUser.id,
                     username: newUser.username,
-                    email: newUser.email
+                    email: newUser.email,
+                    fullName: newUser.fullName,
+                    accessLevel: newUser.accessLevel
                 },
                 token
             }
@@ -114,7 +122,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
         // Gerar token JWT
         const token = jwt.sign(
-            { userId: user.id, username: user.username },
+            { userId: user.id, username: user.username, accessLevel: user.accessLevel },
             process.env.JWT_SECRET || 'your-secret-key',
             { expiresIn: '24h' }
         );
@@ -126,7 +134,9 @@ export const loginUser = async (req: Request, res: Response) => {
                 user: {
                     id: user.id,
                     username: user.username,
-                    email: user.email
+                    email: user.email,
+                    fullName: user.fullName,
+                    accessLevel: user.accessLevel
                 },
                 token
             }
@@ -188,7 +198,7 @@ export const refreshToken = async (req: Request, res: Response) => {
 
         // Gerar novo token
         const newToken = jwt.sign(
-            { userId: user.id, username: user.username },
+            { userId: user.id, username: user.username, accessLevel: user.accessLevel },
             process.env.JWT_SECRET || 'your-secret-key',
             { expiresIn: '24h' }
         );
@@ -221,7 +231,8 @@ export const verifyToken = async (req: Request, res: Response) => {
             message: 'Token válido',
             data: {
                 userId: req.user?.userId,
-                username: req.user?.username
+                username: req.user?.username,
+                accessLevel: req.user?.accessLevel
             }
         });
     } catch (error: any) {
@@ -358,7 +369,9 @@ export const getProfile = async (req: Request, res: Response) => {
                 user: {
                     id: user.id,
                     username: user.username,
-                    email: user.email
+                    email: user.email,
+                    fullName: user.fullName,
+                    accessLevel: user.accessLevel
                 }
             }
         });
@@ -408,6 +421,20 @@ export const updateProfile = async (req: Request, res: Response) => {
             }
         }
 
+        // Verificar se username já existe (se estiver sendo alterado)
+        if (userData.username && userData.username !== user.username) {
+            const existingUser = await User.findOne({
+                where: { username: userData.username }
+            });
+
+            if (existingUser) {
+                return res.status(409).json({
+                    success: false,
+                    message: 'Username já está em uso'
+                });
+            }
+        }
+
         // Atualizar dados
         await user.update(userData);
 
@@ -418,7 +445,9 @@ export const updateProfile = async (req: Request, res: Response) => {
                 user: {
                     id: user.id,
                     username: user.username,
-                    email: user.email
+                    email: user.email,
+                    fullName: user.fullName,
+                    accessLevel: user.accessLevel
                 }
             }
         });
