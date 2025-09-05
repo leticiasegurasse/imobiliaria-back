@@ -162,6 +162,14 @@ export const getPropertyById = async (req: Request, res: Response) => {
       });
     }
 
+    // Se não há token de autenticação (acesso público), verificar se a propriedade está ativa
+    if (!req.headers.authorization && property.status !== 'ativo') {
+      return res.status(404).json({
+        success: false,
+        message: 'Propriedade não encontrada'
+      });
+    }
+
     res.json({
       success: true,
       data: property

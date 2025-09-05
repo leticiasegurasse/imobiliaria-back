@@ -1,4 +1,4 @@
-import { User, Property } from '../config/db';
+import { User, Property, City, Neighborhood, PropertyType } from '../config/db';
 import bcrypt from 'bcryptjs';
 import { Op } from 'sequelize';
 
@@ -188,6 +188,190 @@ const seedDatabase = async () => {
       console.log('✅ Propriedades de exemplo criadas');
     } else {
       console.log('ℹ️ Propriedades já existem no banco');
+    }
+
+    // Criar cidades de exemplo se não existirem
+    const citiesCount = await City.count();
+    if (citiesCount === 0) {
+      const sampleCities = [
+        {
+          nome: 'Miracema',
+          estado: 'RJ',
+          cep: '28460-000',
+          ativo: true
+        },
+        {
+          nome: 'Campos dos Goytacazes',
+          estado: 'RJ',
+          cep: '28000-000',
+          ativo: true
+        },
+        {
+          nome: 'São Paulo',
+          estado: 'SP',
+          cep: '01000-000',
+          ativo: true
+        },
+        {
+          nome: 'Rio de Janeiro',
+          estado: 'RJ',
+          cep: '20000-000',
+          ativo: true
+        }
+      ];
+
+      for (const cityData of sampleCities) {
+        await City.create(cityData);
+      }
+      console.log('✅ Cidades de exemplo criadas');
+    } else {
+      console.log('ℹ️ Cidades já existem no banco');
+    }
+
+    // Criar bairros de exemplo se não existirem
+    const neighborhoodsCount = await Neighborhood.count();
+    if (neighborhoodsCount === 0) {
+      const miracema = await City.findOne({ where: { nome: 'Miracema' } });
+      const campos = await City.findOne({ where: { nome: 'Campos dos Goytacazes' } });
+      const saoPaulo = await City.findOne({ where: { nome: 'São Paulo' } });
+      const rio = await City.findOne({ where: { nome: 'Rio de Janeiro' } });
+
+      const sampleNeighborhoods = [
+        // Miracema
+        { nome: 'Centro', cidade_id: miracema?.id, ativo: true },
+        { nome: 'São José', cidade_id: miracema?.id, ativo: true },
+        { nome: 'Bela Vista', cidade_id: miracema?.id, ativo: true },
+        { nome: 'Vila Nova', cidade_id: miracema?.id, ativo: true },
+        { nome: 'Jardim América', cidade_id: miracema?.id, ativo: true },
+        
+        // Campos dos Goytacazes
+        { nome: 'Centro', cidade_id: campos?.id, ativo: true },
+        { nome: 'Parque Rosário', cidade_id: campos?.id, ativo: true },
+        { nome: 'Guarus', cidade_id: campos?.id, ativo: true },
+        { nome: 'Jockey Club', cidade_id: campos?.id, ativo: true },
+        
+        // São Paulo
+        { nome: 'Centro', cidade_id: saoPaulo?.id, ativo: true },
+        { nome: 'Vila Madalena', cidade_id: saoPaulo?.id, ativo: true },
+        { nome: 'Pinheiros', cidade_id: saoPaulo?.id, ativo: true },
+        { nome: 'Itaim Bibi', cidade_id: saoPaulo?.id, ativo: true },
+        
+        // Rio de Janeiro
+        { nome: 'Centro', cidade_id: rio?.id, ativo: true },
+        { nome: 'Copacabana', cidade_id: rio?.id, ativo: true },
+        { nome: 'Ipanema', cidade_id: rio?.id, ativo: true },
+        { nome: 'Leblon', cidade_id: rio?.id, ativo: true }
+      ];
+
+      for (const neighborhoodData of sampleNeighborhoods) {
+        if (neighborhoodData.cidade_id) {
+          await Neighborhood.create({
+            nome: neighborhoodData.nome,
+            cidade_id: neighborhoodData.cidade_id,
+            ativo: neighborhoodData.ativo
+          });
+        }
+      }
+      console.log('✅ Bairros de exemplo criados');
+    } else {
+      console.log('ℹ️ Bairros já existem no banco');
+    }
+
+    // Criar tipos de imóvel de exemplo se não existirem
+    const propertyTypesCount = await PropertyType.count();
+    if (propertyTypesCount === 0) {
+      const samplePropertyTypes = [
+        // Residencial
+        {
+          nome: 'Casa',
+          descricao: 'Imóvel residencial unifamiliar',
+          categoria: 'residencial' as const,
+          ativo: true
+        },
+        {
+          nome: 'Apartamento',
+          descricao: 'Unidade habitacional em edifício',
+          categoria: 'residencial' as const,
+          ativo: true
+        },
+        {
+          nome: 'Cobertura',
+          descricao: 'Apartamento no último andar com terraço',
+          categoria: 'residencial' as const,
+          ativo: true
+        },
+        {
+          nome: 'Kitnet',
+          descricao: 'Apartamento de um cômodo',
+          categoria: 'residencial' as const,
+          ativo: true
+        },
+        {
+          nome: 'Loft',
+          descricao: 'Espaço amplo sem divisórias internas',
+          categoria: 'residencial' as const,
+          ativo: true
+        },
+        {
+          nome: 'Sobrado',
+          descricao: 'Casa de dois ou mais pavimentos',
+          categoria: 'residencial' as const,
+          ativo: true
+        },
+        {
+          nome: 'Chácara',
+          descricao: 'Propriedade rural com casa',
+          categoria: 'rural' as const,
+          ativo: true
+        },
+        {
+          nome: 'Sítio',
+          descricao: 'Propriedade rural para lazer ou produção',
+          categoria: 'rural' as const,
+          ativo: true
+        },
+        
+        // Comercial
+        {
+          nome: 'Sala Comercial',
+          descricao: 'Espaço para escritório ou consultório',
+          categoria: 'comercial' as const,
+          ativo: true
+        },
+        {
+          nome: 'Loja',
+          descricao: 'Estabelecimento comercial',
+          categoria: 'comercial' as const,
+          ativo: true
+        },
+        {
+          nome: 'Galpão',
+          descricao: 'Depósito ou espaço industrial',
+          categoria: 'comercial' as const,
+          ativo: true
+        },
+        {
+          nome: 'Prédio Comercial',
+          descricao: 'Edifício para uso comercial',
+          categoria: 'comercial' as const,
+          ativo: true
+        },
+        
+        // Terreno
+        {
+          nome: 'Terreno',
+          descricao: 'Lote para construção',
+          categoria: 'terreno' as const,
+          ativo: true
+        }
+      ];
+
+      for (const propertyTypeData of samplePropertyTypes) {
+        await PropertyType.create(propertyTypeData);
+      }
+      console.log('✅ Tipos de imóvel de exemplo criados');
+    } else {
+      console.log('ℹ️ Tipos de imóvel já existem no banco');
     }
 
     console.log('✅ Seed do banco de dados concluído com sucesso!');

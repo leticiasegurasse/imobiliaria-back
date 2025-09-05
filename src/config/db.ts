@@ -27,9 +27,15 @@ const sequelize = new Sequelize(
 // Importar e registrar modelos
 import UserFactory from '../models/user.model';
 import PropertyFactory from '../models/property.model';
+import CityFactory from '../models/city.model';
+import NeighborhoodFactory from '../models/neighborhood.model';
+import PropertyTypeFactory from '../models/propertyType.model';
 
 const User = UserFactory(sequelize);
 const Property = PropertyFactory(sequelize);
+const City = CityFactory(sequelize);
+const Neighborhood = NeighborhoodFactory(sequelize);
+const PropertyType = PropertyTypeFactory(sequelize);
 
 // Sincronizar modelos com o banco de dados
 const syncDatabase = async () => {
@@ -53,5 +59,9 @@ if (process.env.NODE_ENV !== 'production') {
     syncDatabase();
 }
 
-export { sequelize, User, Property };
+// Definir associações entre modelos
+City.hasMany(Neighborhood, { foreignKey: 'cidade_id', as: 'bairros' });
+Neighborhood.belongsTo(City, { foreignKey: 'cidade_id', as: 'cidade' });
+
+export { sequelize, User, Property, City, Neighborhood, PropertyType };
 export default sequelize;

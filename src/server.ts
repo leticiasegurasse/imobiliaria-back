@@ -9,6 +9,9 @@ import sequelize from './config/db';
 import authRoutes from './routes/auth.routes';
 import uploadRoutes from './routes/upload.routes';
 import propertyRoutes from './routes/property.routes';
+import cityRoutes from './routes/city.routes';
+import neighborhoodRoutes from './routes/neighborhood.routes';
+import propertyTypeRoutes from './routes/propertyType.routes';
 import { errorHandler, notFoundHandler } from './middlewares/errorMiddleware';
 import seedDatabase from './scripts/seed';
 
@@ -31,6 +34,9 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/properties', propertyRoutes);
+app.use('/api/cities', cityRoutes);
+app.use('/api/neighborhoods', neighborhoodRoutes);
+app.use('/api/property-types', propertyTypeRoutes);
 
 // Rota para servir arquivos de upload
 app.get('/uploads/:filename', (req, res) => {
@@ -112,6 +118,31 @@ app.listen(PORT, () => {
   console.log(`      PATCH /api/properties/:id/toggle-status - Toggle status (protegido)`);
   console.log(`      PATCH /api/properties/:id/toggle-featured - Toggle destaque (protegido)`);
   console.log(`      PATCH /api/properties/:id/toggle-property-of-month - Toggle imóvel do mês (protegido)`);
+  console.log(`   🏙️ Cidades:`);
+  console.log(`      GET  /api/cities - Listar cidades (com filtros)`);
+  console.log(`      GET  /api/cities/state/:estado - Cidades por estado`);
+  console.log(`      GET  /api/cities/:id - Buscar cidade por ID`);
+  console.log(`      POST /api/cities - Criar cidade (protegido)`);
+  console.log(`      PUT  /api/cities/:id - Atualizar cidade (protegido)`);
+  console.log(`      DELETE /api/cities/:id - Excluir cidade (protegido)`);
+  console.log(`      PATCH /api/cities/:id/toggle-status - Toggle status (protegido)`);
+  console.log(`   🏘️ Bairros:`);
+  console.log(`      GET  /api/neighborhoods - Listar bairros (com filtros)`);
+  console.log(`      GET  /api/neighborhoods/city/:cidade_id - Bairros por cidade`);
+  console.log(`      GET  /api/neighborhoods/:id - Buscar bairro por ID`);
+  console.log(`      POST /api/neighborhoods - Criar bairro (protegido)`);
+  console.log(`      PUT  /api/neighborhoods/:id - Atualizar bairro (protegido)`);
+  console.log(`      DELETE /api/neighborhoods/:id - Excluir bairro (protegido)`);
+  console.log(`      PATCH /api/neighborhoods/:id/toggle-status - Toggle status (protegido)`);
+  console.log(`   🏢 Tipos de Imóvel:`);
+  console.log(`      GET  /api/property-types - Listar tipos de imóvel (com filtros)`);
+  console.log(`      GET  /api/property-types/categories - Categorias disponíveis`);
+  console.log(`      GET  /api/property-types/category/:categoria - Tipos por categoria`);
+  console.log(`      GET  /api/property-types/:id - Buscar tipo por ID`);
+  console.log(`      POST /api/property-types - Criar tipo (protegido)`);
+  console.log(`      PUT  /api/property-types/:id - Atualizar tipo (protegido)`);
+  console.log(`      DELETE /api/property-types/:id - Excluir tipo (protegido)`);
+  console.log(`      PATCH /api/property-types/:id/toggle-status - Toggle status (protegido)`);
   console.log(`   📸 Upload:`);
   console.log(`      POST /api/upload/image - Upload de imagem (protegido)`);
   console.log(`      GET  /uploads/:filename - Servir arquivo de imagem`);
