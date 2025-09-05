@@ -24,10 +24,12 @@ const sequelize = new Sequelize(
     }
 );
 
-// Importar e registrar apenas o modelo User
+// Importar e registrar modelos
 import UserFactory from '../models/user.model';
+import PropertyFactory from '../models/property.model';
 
 const User = UserFactory(sequelize);
+const Property = PropertyFactory(sequelize);
 
 // Sincronizar modelos com o banco de dados
 const syncDatabase = async () => {
@@ -51,5 +53,5 @@ if (process.env.NODE_ENV !== 'production') {
     syncDatabase();
 }
 
-export { sequelize, User };
+export { sequelize, User, Property };
 export default sequelize;

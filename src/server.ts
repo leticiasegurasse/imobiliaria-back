@@ -8,6 +8,7 @@ import fs from 'fs';
 import sequelize from './config/db';
 import authRoutes from './routes/auth.routes';
 import uploadRoutes from './routes/upload.routes';
+import propertyRoutes from './routes/property.routes';
 import { errorHandler, notFoundHandler } from './middlewares/errorMiddleware';
 import seedDatabase from './scripts/seed';
 
@@ -29,6 +30,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // Rotas
 app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/properties', propertyRoutes);
 
 // Rota para servir arquivos de upload
 app.get('/uploads/:filename', (req, res) => {
@@ -99,6 +101,17 @@ app.listen(PORT, () => {
   console.log(`      GET  /api/auth/profile - Perfil do usuário (protegido)`);
   console.log(`      PUT  /api/auth/profile - Atualizar perfil (protegido)`);
   console.log(`      POST /api/auth/change-password - Alterar senha (protegido)`);
+  console.log(`   🏠 Propriedades:`);
+  console.log(`      GET  /api/properties - Listar propriedades (com filtros)`);
+  console.log(`      GET  /api/properties/featured - Propriedades em destaque`);
+  console.log(`      GET  /api/properties/property-of-month - Imóvel do mês`);
+  console.log(`      GET  /api/properties/:id - Buscar propriedade por ID`);
+  console.log(`      POST /api/properties - Criar propriedade (protegido)`);
+  console.log(`      PUT  /api/properties/:id - Atualizar propriedade (protegido)`);
+  console.log(`      DELETE /api/properties/:id - Excluir propriedade (protegido)`);
+  console.log(`      PATCH /api/properties/:id/toggle-status - Toggle status (protegido)`);
+  console.log(`      PATCH /api/properties/:id/toggle-featured - Toggle destaque (protegido)`);
+  console.log(`      PATCH /api/properties/:id/toggle-property-of-month - Toggle imóvel do mês (protegido)`);
   console.log(`   📸 Upload:`);
   console.log(`      POST /api/upload/image - Upload de imagem (protegido)`);
   console.log(`      GET  /uploads/:filename - Servir arquivo de imagem`);
