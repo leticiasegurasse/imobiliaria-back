@@ -12,6 +12,7 @@ import propertyRoutes from './routes/property.routes';
 import cityRoutes from './routes/city.routes';
 import neighborhoodRoutes from './routes/neighborhood.routes';
 import propertyTypeRoutes from './routes/propertyType.routes';
+import settingsRoutes from './routes/settings.routes';
 import { errorHandler, notFoundHandler } from './middlewares/errorMiddleware';
 import seedDatabase from './scripts/seed';
 
@@ -37,6 +38,7 @@ app.use('/api/properties', propertyRoutes);
 app.use('/api/cities', cityRoutes);
 app.use('/api/neighborhoods', neighborhoodRoutes);
 app.use('/api/property-types', propertyTypeRoutes);
+app.use('/api/settings', settingsRoutes);
 
 // Rota para servir arquivos de upload
 app.get('/uploads/:filename', (req, res) => {
@@ -147,6 +149,11 @@ app.listen(PORT, () => {
   console.log(`      POST /api/upload/image - Upload de imagem (protegido)`);
   console.log(`      GET  /uploads/:filename - Servir arquivo de imagem`);
   console.log(`      DELETE /api/upload/image/:filename - Excluir imagem (protegido)`);
+  console.log(`   ⚙️ Configurações:`);
+  console.log(`      GET  /api/settings - Buscar configurações`);
+  console.log(`      GET  /api/settings/section/:section - Buscar seção específica`);
+  console.log(`      PUT  /api/settings - Atualizar configurações (protegido)`);
+  console.log(`      PUT  /api/settings/section/:section - Atualizar seção específica (protegido)`);
   console.log(`   🏥 Sistema:`);
   console.log(`      GET  /api/health - Health check`);
 });

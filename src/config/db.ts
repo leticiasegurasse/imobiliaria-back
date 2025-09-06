@@ -30,12 +30,14 @@ import PropertyFactory from '../models/property.model';
 import CityFactory from '../models/city.model';
 import NeighborhoodFactory from '../models/neighborhood.model';
 import PropertyTypeFactory from '../models/propertyType.model';
+import SettingsFactory from '../models/settings.model';
 
 const User = UserFactory(sequelize);
 const Property = PropertyFactory(sequelize);
 const City = CityFactory(sequelize);
 const Neighborhood = NeighborhoodFactory(sequelize);
 const PropertyType = PropertyTypeFactory(sequelize);
+const Settings = SettingsFactory(sequelize);
 
 // Sincronizar modelos com o banco de dados
 const syncDatabase = async () => {
@@ -63,5 +65,5 @@ if (process.env.NODE_ENV !== 'production') {
 City.hasMany(Neighborhood, { foreignKey: 'cidade_id', as: 'bairros' });
 Neighborhood.belongsTo(City, { foreignKey: 'cidade_id', as: 'cidade' });
 
-export { sequelize, User, Property, City, Neighborhood, PropertyType };
+export { sequelize, User, Property, City, Neighborhood, PropertyType, Settings };
 export default sequelize;
