@@ -69,7 +69,7 @@ export const validateLogin = (req: Request, res: Response, next: NextFunction) =
 
 // Validação para atualização de perfil
 export const validateProfileUpdate = (req: Request, res: Response, next: NextFunction) => {
-    const { username, email, fullName, accessLevel } = req.body;
+    const { username, email, fullName, accessLevel, phone, bio, avatar } = req.body;
 
     // Validar username (se fornecido)
     if (username && (username.length < 3 || username.length > 50)) {
@@ -103,6 +103,24 @@ export const validateProfileUpdate = (req: Request, res: Response, next: NextFun
         res.status(400).json({
             success: false,
             message: 'Nível de acesso deve ser "admin" ou "editor"'
+        });
+        return;
+    }
+
+    // Validar telefone (se fornecido)
+    if (phone && phone.length > 20) {
+        res.status(400).json({
+            success: false,
+            message: 'Telefone deve ter no máximo 20 caracteres'
+        });
+        return;
+    }
+
+    // Validar bio (se fornecida)
+    if (bio && bio.length > 1000) {
+        res.status(400).json({
+            success: false,
+            message: 'Biografia deve ter no máximo 1000 caracteres'
         });
         return;
     }

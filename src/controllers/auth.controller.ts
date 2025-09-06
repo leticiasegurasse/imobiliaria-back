@@ -25,6 +25,9 @@ interface UserData {
     email?: string;
     fullName?: string;
     accessLevel?: 'admin' | 'editor';
+    phone?: string;
+    bio?: string;
+    avatar?: string;
 }
 
 // Registrar novo usuário
@@ -78,7 +81,10 @@ export const registerUser = async (req: Request, res: Response) => {
                     username: newUser.username,
                     email: newUser.email,
                     fullName: newUser.fullName,
-                    accessLevel: newUser.accessLevel
+                    accessLevel: newUser.accessLevel,
+                    phone: newUser.phone,
+                    bio: newUser.bio,
+                    avatar: newUser.avatar
                 },
                 token
             }
@@ -136,7 +142,10 @@ export const loginUser = async (req: Request, res: Response) => {
                     username: user.username,
                     email: user.email,
                     fullName: user.fullName,
-                    accessLevel: user.accessLevel
+                    accessLevel: user.accessLevel,
+                    phone: user.phone,
+                    bio: user.bio,
+                    avatar: user.avatar
                 },
                 token
             }
@@ -371,7 +380,10 @@ export const getProfile = async (req: Request, res: Response) => {
                     username: user.username,
                     email: user.email,
                     fullName: user.fullName,
-                    accessLevel: user.accessLevel
+                    accessLevel: user.accessLevel,
+                    phone: user.phone,
+                    bio: user.bio,
+                    avatar: user.avatar
                 }
             }
         });
@@ -447,7 +459,10 @@ export const updateProfile = async (req: Request, res: Response) => {
                     username: user.username,
                     email: user.email,
                     fullName: user.fullName,
-                    accessLevel: user.accessLevel
+                    accessLevel: user.accessLevel,
+                    phone: user.phone,
+                    bio: user.bio,
+                    avatar: user.avatar
                 }
             }
         });

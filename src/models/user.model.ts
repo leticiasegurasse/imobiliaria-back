@@ -8,6 +8,9 @@ interface UserAttributes {
     fullName: string;
     accessLevel: 'admin' | 'editor';
     password: string;
+    phone?: string;
+    bio?: string;
+    avatar?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -21,6 +24,9 @@ export default (sequelize: Sequelize) => {
         public fullName!: string;
         public accessLevel!: 'admin' | 'editor';
         public password!: string;
+        public phone?: string;
+        public bio?: string;
+        public avatar?: string;
         public readonly createdAt!: Date;
         public readonly updatedAt!: Date;
     }
@@ -73,6 +79,21 @@ export default (sequelize: Sequelize) => {
                     len: [6, 255],
                     notEmpty: true,
                 },
+            },
+            phone: {
+                type: DataTypes.STRING(20),
+                allowNull: true,
+                validate: {
+                    len: [0, 20],
+                },
+            },
+            bio: {
+                type: DataTypes.TEXT,
+                allowNull: true,
+            },
+            avatar: {
+                type: DataTypes.TEXT,
+                allowNull: true,
             },
         },
         {
