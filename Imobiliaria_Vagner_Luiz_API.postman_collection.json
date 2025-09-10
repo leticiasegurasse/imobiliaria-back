@@ -1,0 +1,976 @@
+{
+  "info": {
+    "name": "Imobiliária Vagner & Luiz - API",
+    "description": "Collection completa da API da Imobiliária Vagner & Luiz com todas as rotas disponíveis",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "🔐 Autenticação",
+      "item": [
+        {
+          "name": "Registrar Usuário",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"email\": \"admin@imobiliaria.com\",\n  \"fullName\": \"Administrador\",\n  \"password\": \"123456\",\n  \"accessLevel\": \"admin\",\n  \"phone\": \"(11) 99999-9999\",\n  \"bio\": \"Administrador do sistema\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@imobiliaria.com\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "logout"]
+            }
+          }
+        },
+        {
+          "name": "Renovar Token",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/refresh",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "refresh"]
+            }
+          }
+        },
+        {
+          "name": "Esqueci a Senha",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@imobiliaria.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/forgot-password",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "forgot-password"]
+            }
+          }
+        },
+        {
+          "name": "Redefinir Senha",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"reset_token_aqui\",\n  \"password\": \"nova_senha123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/reset-password",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "reset-password"]
+            }
+          }
+        },
+        {
+          "name": "Verificar Token",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/verify-token",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "verify-token"]
+            }
+          }
+        },
+        {
+          "name": "Perfil do Usuário",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Atualizar Perfil",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Nome Atualizado\",\n  \"phone\": \"(11) 88888-8888\",\n  \"bio\": \"Biografia atualizada\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Alterar Senha",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"123456\",\n  \"newPassword\": \"nova_senha123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/change-password",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "change-password"]
+            }
+          }
+        },
+        {
+          "name": "Listar Todos Usuários",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/profile/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "profile", "all"]
+            }
+          }
+        },
+        {
+          "name": "Criar Usuário (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"editor\",\n  \"email\": \"editor@imobiliaria.com\",\n  \"fullName\": \"Editor\",\n  \"password\": \"123456\",\n  \"accessLevel\": \"editor\",\n  \"phone\": \"(11) 77777-7777\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/profile/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "profile", "create"]
+            }
+          }
+        },
+        {
+          "name": "Atualizar Usuário por ID",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Nome Atualizado\",\n  \"accessLevel\": \"editor\",\n  \"phone\": \"(11) 66666-6666\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/profile/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "profile", "1"]
+            }
+          }
+        },
+        {
+          "name": "Excluir Usuário por ID",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/profile/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "profile", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏠 Propriedades",
+      "item": [
+        {
+          "name": "Listar Propriedades",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/properties?page=1&limit=10&status=ativo&tipo=Casa&finalidade=Venda&cidade=São Paulo&bairro=Centro&valorMin=100000&valorMax=500000&quartos=2&banheiros=2&vagas=1&destaque=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "ativo"
+                },
+                {
+                  "key": "tipo",
+                  "value": "Casa"
+                },
+                {
+                  "key": "finalidade",
+                  "value": "Venda"
+                },
+                {
+                  "key": "cidade",
+                  "value": "São Paulo"
+                },
+                {
+                  "key": "bairro",
+                  "value": "Centro"
+                },
+                {
+                  "key": "valorMin",
+                  "value": "100000"
+                },
+                {
+                  "key": "valorMax",
+                  "value": "500000"
+                },
+                {
+                  "key": "quartos",
+                  "value": "2"
+                },
+                {
+                  "key": "banheiros",
+                  "value": "2"
+                },
+                {
+                  "key": "vagas",
+                  "value": "1"
+                },
+                {
+                  "key": "destaque",
+                  "value": "true"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Propriedades em Destaque",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/featured",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "properties", "featured"]
+            }
+          }
+        },
+        {
+          "name": "Imóvel do Mês",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/property-of-month",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "properties", "property-of-month"]
+            }
+          }
+        },
+        {
+          "name": "Buscar Propriedade por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/uuid-aqui",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "properties", "uuid-aqui"]
+            }
+          }
+        },
+        {
+          "name": "Criar Propriedade",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Casa com 3 quartos no centro\",\n  \"descricao\": \"Excelente casa com 3 quartos, 2 banheiros, garagem para 2 carros. Localizada no centro da cidade, próximo a escolas, hospitais e comércio.\",\n  \"tipo\": \"Casa\",\n  \"finalidade\": \"Venda\",\n  \"valor\": 350000.00,\n  \"bairro\": \"Centro\",\n  \"cidade\": \"São Paulo\",\n  \"area_util\": 120.50,\n  \"quartos\": 3,\n  \"banheiros\": 2,\n  \"vagas\": 2,\n  \"imagens\": [\n    \"/uploads/imagem1.jpg\",\n    \"/uploads/imagem2.jpg\"\n  ],\n  \"destaque\": false,\n  \"imovel_do_mes\": false,\n  \"status\": \"ativo\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/properties",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "properties"]
+            }
+          }
+        },
+        {
+          "name": "Atualizar Propriedade",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Casa com 3 quartos no centro - ATUALIZADA\",\n  \"descricao\": \"Descrição atualizada da casa.\",\n  \"valor\": 380000.00,\n  \"destaque\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/uuid-aqui",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "properties", "uuid-aqui"]
+            }
+          }
+        },
+        {
+          "name": "Excluir Propriedade",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/uuid-aqui",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "properties", "uuid-aqui"]
+            }
+          }
+        },
+        {
+          "name": "Toggle Status da Propriedade",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/uuid-aqui/toggle-status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "properties", "uuid-aqui", "toggle-status"]
+            }
+          }
+        },
+        {
+          "name": "Toggle Destaque da Propriedade",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/uuid-aqui/toggle-featured",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "properties", "uuid-aqui", "toggle-featured"]
+            }
+          }
+        },
+        {
+          "name": "Toggle Imóvel do Mês",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/api/properties/uuid-aqui/toggle-property-of-month",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "properties", "uuid-aqui", "toggle-property-of-month"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏙️ Cidades",
+      "item": [
+        {
+          "name": "Listar Cidades",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/cities?page=1&limit=10&estado=SP&ativo=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cities"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "estado",
+                  "value": "SP"
+                },
+                {
+                  "key": "ativo",
+                  "value": "true"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cidades por Estado",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/cities/state/SP",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cities", "state", "SP"]
+            }
+          }
+        },
+        {
+          "name": "Buscar Cidade por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/cities/uuid-aqui",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cities", "uuid-aqui"]
+            }
+          }
+        },
+        {
+          "name": "Criar Cidade",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"São Paulo\",\n  \"estado\": \"SP\",\n  \"cep\": \"01000-000\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cities",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cities"]
+            }
+          }
+        },
+        {
+          "name": "Atualizar Cidade",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"São Paulo - Capital\",\n  \"estado\": \"SP\",\n  \"cep\": \"01000-001\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cities/uuid-aqui",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cities", "uuid-aqui"]
+            }
+          }
+        },
+        {
+          "name": "Excluir Cidade",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/cities/uuid-aqui",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cities", "uuid-aqui"]
+            }
+          }
+        },
+        {
+          "name": "Toggle Status da Cidade",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/api/cities/uuid-aqui/toggle-status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cities", "uuid-aqui", "toggle-status"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏘️ Bairros",
+      "item": [
+        {
+          "name": "Listar Bairros",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/neighborhoods?page=1&limit=10&cidade_id=uuid-cidade&ativo=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "neighborhoods"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "cidade_id",
+                  "value": "uuid-cidade"
+                },
+                {
+                  "key": "ativo",
+                  "value": "true"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Bairros por Cidade",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/neighborhoods/city/uuid-cidade",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "neighborhoods", "city", "uuid-cidade"]
+            }
+          }
+        },
+        {
+          "name": "Buscar Bairro por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/neighborhoods/uuid-aqui",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "neighborhoods", "uuid-aqui"]
+            }
+          }
+        },
+        {
+          "name": "Criar Bairro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Centro\",\n  \"cidade_id\": \"uuid-cidade-aqui\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/neighborhoods",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "neighborhoods"]
+            }
+          }
+        },
+        {
+          "name": "Atualizar Bairro",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Centro Histórico\",\n  \"cidade_id\": \"uuid-cidade-aqui\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/neighborhoods/uuid-aqui",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "neighborhoods", "uuid-aqui"]
+            }
+          }
+        },
+        {
+          "name": "Excluir Bairro",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/neighborhoods/uuid-aqui",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "neighborhoods", "uuid-aqui"]
+            }
+          }
+        },
+        {
+          "name": "Toggle Status do Bairro",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/api/neighborhoods/uuid-aqui/toggle-status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "neighborhoods", "uuid-aqui", "toggle-status"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏢 Tipos de Imóvel",
+      "item": [
+        {
+          "name": "Listar Tipos de Imóvel",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/property-types?page=1&limit=10&categoria=residencial&ativo=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "property-types"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "categoria",
+                  "value": "residencial"
+                },
+                {
+                  "key": "ativo",
+                  "value": "true"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Categorias Disponíveis",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/property-types/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "property-types", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Tipos por Categoria",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/property-types/category/residencial",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "property-types", "category", "residencial"]
+            }
+          }
+        },
+        {
+          "name": "Buscar Tipo por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/property-types/uuid-aqui",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "property-types", "uuid-aqui"]
+            }
+          }
+        },
+        {
+          "name": "Criar Tipo de Imóvel",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Casa\",\n  \"descricao\": \"Casa residencial unifamiliar\",\n  \"categoria\": \"residencial\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/property-types",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "property-types"]
+            }
+          }
+        },
+        {
+          "name": "Atualizar Tipo de Imóvel",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Casa Residencial\",\n  \"descricao\": \"Casa residencial unifamiliar com quintal\",\n  \"categoria\": \"residencial\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/property-types/uuid-aqui",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "property-types", "uuid-aqui"]
+            }
+          }
+        },
+        {
+          "name": "Excluir Tipo de Imóvel",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/property-types/uuid-aqui",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "property-types", "uuid-aqui"]
+            }
+          }
+        },
+        {
+          "name": "Toggle Status do Tipo",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/api/property-types/uuid-aqui/toggle-status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "property-types", "uuid-aqui", "toggle-status"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📸 Upload",
+      "item": [
+        {
+          "name": "Upload de Imagem",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "upload", "image"]
+            }
+          }
+        },
+        {
+          "name": "Servir Arquivo de Imagem",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/uploads/nome-do-arquivo.jpg",
+              "host": ["{{baseUrl}}"],
+              "path": ["uploads", "nome-do-arquivo.jpg"]
+            }
+          }
+        },
+        {
+          "name": "Excluir Imagem",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/upload/image/nome-do-arquivo.jpg",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "upload", "image", "nome-do-arquivo.jpg"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "⚙️ Configurações",
+      "item": [
+        {
+          "name": "Buscar Configurações",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/settings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "settings"]
+            }
+          }
+        },
+        {
+          "name": "Buscar Seção Específica",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/settings/section/companyInfo",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "settings", "section", "companyInfo"]
+            }
+          }
+        },
+        {
+          "name": "Atualizar Configurações",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyInfo\": {\n    \"name\": \"Imobiliária Vagner & Luiz\",\n    \"cnpj\": \"12.345.678/0001-90\",\n    \"address\": {\n      \"street\": \"Rua das Flores\",\n      \"number\": \"123\",\n      \"neighborhood\": \"Centro\",\n      \"city\": \"São Paulo\",\n      \"state\": \"SP\",\n      \"zipCode\": \"01000-000\"\n    },\n    \"contact\": {\n      \"phone\": \"(11) 99999-9999\",\n      \"whatsapp\": \"(11) 99999-9999\",\n      \"email\": \"contato@imobiliaria.com\"\n    },\n    \"businessHours\": {\n      \"weekdays\": \"08:00 às 18:00\",\n      \"weekend\": \"08:00 às 12:00\"\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/settings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "settings"]
+            }
+          }
+        },
+        {
+          "name": "Atualizar Seção Específica",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Imobiliária Vagner & Luiz - Atualizada\",\n  \"cnpj\": \"12.345.678/0001-91\",\n  \"contact\": {\n    \"phone\": \"(11) 88888-8888\",\n    \"whatsapp\": \"(11) 88888-8888\",\n    \"email\": \"contato@imobiliaria.com.br\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/settings/section/companyInfo",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "settings", "section", "companyInfo"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏥 Sistema",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "health"]
+            }
+          }
+        },
+        {
+          "name": "API Status",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"],
+              "path": [""]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -346,7 +346,7 @@ export const toggleNeighborhoodStatus = async (req: Request, res: Response) => {
 export const getNeighborhoodsByCity = async (req: Request, res: Response) => {
   try {
     const { cidade_id } = req.params;
-    const { ativo = true } = req.query;
+    const { ativo } = req.query;
 
     // Verificar se a cidade existe
     const city = await City.findByPk(cidade_id);
@@ -357,11 +357,18 @@ export const getNeighborhoodsByCity = async (req: Request, res: Response) => {
       });
     }
 
+    // Construir filtro de ativo
+    const where: any = {
+      cidade_id: cidade_id
+    };
+
+    // Se o parâmetro ativo foi fornecido, aplicar o filtro
+    if (ativo !== undefined) {
+      where.ativo = ativo === 'true';
+    }
+
     const neighborhoods = await Neighborhood.findAll({
-      where: {
-        cidade_id: cidade_id,
-        ativo: ativo === 'true'
-      },
+      where,
       order: [['nome', 'ASC']],
       include: [
         {
