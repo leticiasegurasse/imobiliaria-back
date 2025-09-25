@@ -1,0 +1,22 @@
+# Dockerfile alternativo mais simples
+FROM node:18-slim
+
+WORKDIR /app
+
+# Copiar package files
+COPY package*.json ./
+
+# Instalar dependências
+RUN npm install
+
+# Copiar código
+COPY . .
+
+# Build
+RUN npm run build
+
+# Expor porta
+EXPOSE 3001
+
+# Comando de start
+CMD ["node", "dist/server.js"]

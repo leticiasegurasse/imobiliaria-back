@@ -1,0 +1,28 @@
+# Dockerfile para uso offline ou com problemas de registry
+FROM node:18-alpine
+
+# Configurar registry alternativo se necessário
+# RUN echo "registry=https://registry.npmjs.org/" > .npmrc
+
+WORKDIR /app
+
+# Copiar package files
+COPY package*.json ./
+
+# Instalar dependências com cache
+RUN npm install --production
+
+# Copiar código
+COPY . .
+
+# Build da aplicação
+RUN npm run build
+
+# Criar diretório de uploads
+RUN mkdir -p uploads
+
+# Expor porta
+EXPOSE 3001
+
+# Comando de start
+CMD ["node", "dist/server.js"]
