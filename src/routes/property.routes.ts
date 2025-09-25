@@ -9,7 +9,8 @@ import {
   togglePropertyFeatured,
   togglePropertyOfMonth,
   getFeaturedProperties,
-  getPropertyOfMonth
+  getPropertyOfMonth,
+  getDashboardStats
 } from '../controllers/property.controller';
 import { authenticateToken } from '../middlewares/authMiddleware';
 import asyncHandler from '../middlewares/asyncMiddleware';
@@ -26,6 +27,7 @@ const router = express.Router();
 router.get('/', ...validatePropertyFilters, asyncHandler(getAllProperties));
 router.get('/featured', asyncHandler(getFeaturedProperties));
 router.get('/property-of-month', asyncHandler(getPropertyOfMonth));
+router.get('/dashboard-stats', asyncHandler(getDashboardStats));
 router.get('/:id', ...validateId, asyncHandler(getPropertyById));
 
 // Rotas protegidas (requerem autenticação)

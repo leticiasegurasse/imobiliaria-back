@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Property, PropertyType } from '../config/db';
+import { Property, PropertyType, City, Neighborhood } from '../config/db';
 import { Op } from 'sequelize';
 
 // Interface para filtros de busca
@@ -569,6 +569,62 @@ export const getPropertyOfMonth = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error('Erro ao buscar imóvel do mês:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor',
+      error: process.env.NODE_ENV === 'development' ? error : undefined
+    });
+  }
+};
+
+// Buscar estatísticas para o dashboard
+export const getDashboardStats = async (req: Request, res: Response) => {
+  try {
+    // Estatísticas de propriedades
+    const totalProperties = await Property.count();
+    const forSale = await Property.count({ where: { finalidade: 'Venda' } });
+    const forRent = await Property.count({ where: { finalidade: 'Aluguel' } });
+    const activeProperties = await Property.count({ where: { status: 'ativo' } });
+    const inactiveProperties = await Property.count({ where: { status: 'inativo' } });
+    const featuredProperties = await Property.count({ where: { destaque: true } });
+    const propertyOfMonth = await Property.count({ where: { imovel_do_mes: true } });
+
+    // Estatísticas de cidades e bairros
+    const totalCities = await City.count({ where: { ativo: true } });
+    const totalNeighborhoods = await Neighborhood.count({ where: { ativo: true } });
+    const totalPropertyTypes = await PropertyType.count({ where: { ativo: true } });
+
+    // Propriedades recentes (últimas 5)
+    const recentProperties = await Property.findAll({
+      order: [['createdAt', 'DESC']],
+      limit: 5,
+      include: [
+        {
+          model: PropertyType,
+          as: 'tipo',
+          attributes: ['id', 'nome', 'categoria']
+        }
+      ]
+    });
+
+    res.json({
+      success: true,
+      data: {
+        totalProperties,
+        forSale,
+        forRent,
+        activeProperties,
+        inactiveProperties,
+        featuredProperties,
+        propertyOfMonth,
+        totalCities,
+        totalNeighborhoods,
+        totalPropertyTypes,
+        recentProperties
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao buscar estatísticas do dashboard:', error);
     res.status(500).json({
       success: false,
       message: 'Erro interno do servidor',
