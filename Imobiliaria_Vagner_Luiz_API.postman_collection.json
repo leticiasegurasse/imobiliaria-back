@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "Imobiliária Vagner & Luiz - API",
-    "description": "Collection completa da API da Imobiliária Vagner & Luiz com todas as rotas disponíveis",
+    "name": "Vagner, Luiz e Adriana Corretores - API",
+    "description": "Collection completa da API dos Corretores Vagner, Luiz e Adriana com todas as rotas disponíveis",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "version": "1.0.0"
   },
@@ -913,7 +913,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"companyInfo\": {\n    \"name\": \"Imobiliária Vagner & Luiz\",\n    \"cnpj\": \"12.345.678/0001-90\",\n    \"address\": {\n      \"street\": \"Rua das Flores\",\n      \"number\": \"123\",\n      \"neighborhood\": \"Centro\",\n      \"city\": \"São Paulo\",\n      \"state\": \"SP\",\n      \"zipCode\": \"01000-000\"\n    },\n    \"contact\": {\n      \"phone\": \"(11) 99999-9999\",\n      \"whatsapp\": \"(11) 99999-9999\",\n      \"email\": \"contato@imobiliaria.com\"\n    },\n    \"businessHours\": {\n      \"weekdays\": \"08:00 às 18:00\",\n      \"weekend\": \"08:00 às 12:00\"\n    }\n  }\n}"
+              "raw": "{\n  \"companyInfo\": {\n    \"name\": \"Vagner, Luiz e Adriana Corretores de Imóveis\",\n    \"cnpj\": \"12.345.678/0001-90\",\n    \"address\": {\n      \"street\": \"Rua das Flores\",\n      \"number\": \"123\",\n      \"neighborhood\": \"Centro\",\n      \"city\": \"São Paulo\",\n      \"state\": \"SP\",\n      \"zipCode\": \"01000-000\"\n    },\n    \"contact\": {\n      \"phone\": \"(11) 99999-9999\",\n      \"whatsapp\": \"(11) 99999-9999\",\n      \"email\": \"contato@imobiliaria.com\"\n    },\n    \"businessHours\": {\n      \"weekdays\": \"08:00 às 18:00\",\n      \"weekend\": \"08:00 às 12:00\"\n    }\n  }\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/settings",
@@ -934,7 +934,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Imobiliária Vagner & Luiz - Atualizada\",\n  \"cnpj\": \"12.345.678/0001-91\",\n  \"contact\": {\n    \"phone\": \"(11) 88888-8888\",\n    \"whatsapp\": \"(11) 88888-8888\",\n    \"email\": \"contato@imobiliaria.com.br\"\n  }\n}"
+              "raw": "{\n  \"name\": \"Vagner, Luiz e Adriana Corretores - Atualizada\",\n  \"cnpj\": \"12.345.678/0001-91\",\n  \"contact\": {\n    \"phone\": \"(11) 88888-8888\",\n    \"whatsapp\": \"(11) 88888-8888\",\n    \"email\": \"contato@imobiliaria.com.br\"\n  }\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/settings/section/companyInfo",

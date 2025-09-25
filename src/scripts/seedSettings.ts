@@ -3,7 +3,7 @@ import { Settings } from '../config/db';
 // Dados das configurações baseados no mock do frontend
 const defaultSettings = {
   companyInfo: {
-    name: 'Vagner e Luiz Corretores de Imóveis',
+    name: 'Vagner, Luiz e Adriana Corretores de Imóveis',
     cnpj: '12.345.678/0001-90',
     address: {
       street: 'Rua Marechal Floriano',
@@ -19,16 +19,16 @@ const defaultSettings = {
       phone: '22992635400',
       whatsapp: '22992635400',
       email: 'vagnercorretordeimoveis@gmail.com',
-      website: 'https://vagnereluiz.com.br'
+      website: 'https://vagnerluizadriana.com.br'
     },
     businessHours: {
       weekdays: 'Segunda a sexta-feira das 8h às 17h',
       weekend: 'Sábados das 8h às 12h'
     },
     socialMedia: {
-      facebook: 'https://facebook.com/vagnereluizimoveis',
-      instagram: 'https://instagram.com/vagnereluizimoveis',
-      linkedin: 'https://linkedin.com/company/vagnereluizimoveis'
+      facebook: 'https://facebook.com/vagnerluizadrianaimoveis',
+      instagram: 'https://instagram.com/vagnerluizadrianaimoveis',
+      linkedin: 'https://linkedin.com/company/vagnerluizadrianaimoveis'
     }
   },
   visualIdentity: {
@@ -56,9 +56,9 @@ const defaultSettings = {
     },
     about: {
       title: 'Nossa História',
-      content: 'A Vagner e Luiz Corretores de Imóveis nasceu em 2014, da união entre experiência, confiança e laços familiares. Fundada por Luiz, corretor experiente e apaixonado pelo mercado imobiliário, e seu filho Vagner, a empresa carrega em sua essência o compromisso de oferecer um atendimento humano, transparente e dedicado. Com o passar dos anos, o amor pela profissão se estendeu à família — e hoje quem também integra a equipe é Adriana, esposa de Vagner, que chegou para somar com sua visão sensível, atenção aos detalhes e dedicação no atendimento aos clientes. Juntos, formamos um time que vai além da relação profissional: somos uma família unida por valores sólidos e pelo desejo de ajudar outras famílias a encontrarem o lar ideal ou realizarem bons negócios.',
+      content: 'Vagner, Luiz e Adriana Corretores de Imóveis nasceu em 2014, da união entre experiência, confiança e laços familiares. Fundada por Luiz, corretor experiente e apaixonado pelo mercado imobiliário, e seu filho Vagner, o grupo carrega em sua essência o compromisso de oferecer um atendimento humano, transparente e dedicado. Com o passar dos anos, o amor pela profissão se estendeu à família — e hoje quem também integra a equipe é Adriana, esposa de Vagner, que chegou para somar com sua visão sensível, atenção aos detalhes e dedicação no atendimento aos clientes. Juntos, formamos um time que vai além da relação profissional: somos uma família unida por valores sólidos e pelo desejo de ajudar outras famílias a encontrarem o lar ideal ou realizarem bons negócios.',
       mission: 'Conectar pessoas aos seus lares ideais com transparência e dedicação.',
-      vision: 'Ser referência em corretagem imobiliária na região, reconhecida pela excelência no atendimento.',
+      vision: 'Ser referência em corretagem na região, reconhecida pela excelência no atendimento.',
       values: [
         'Transparência em todas as negociações',
         'Atendimento humanizado e personalizado',
@@ -99,7 +99,7 @@ const defaultSettings = {
         description: 'Com mais de 15 anos de experiência no mercado imobiliário, Luiz é especialista em negociações e avaliações.',
         photo: '/src/assets/team/luiz.jpg',
         creci: 'CRECI/RJ 12345',
-        email: 'luiz@vagnereluiz.com.br',
+        email: 'luiz@vagnerluizadriana.com.br',
         phone: '22992635401'
       },
       {
@@ -108,7 +108,7 @@ const defaultSettings = {
         description: 'Especialista em imóveis residenciais e comerciais, com foco em atendimento personalizado.',
         photo: '/src/assets/team/vagner.jpg',
         creci: 'CRECI/RJ 67890',
-        email: 'vagner@vagnereluiz.com.br',
+        email: 'vagner@vagnerluizadriana.com.br',
         phone: '22992635402'
       },
       {
@@ -117,12 +117,12 @@ const defaultSettings = {
         description: 'Especialista em locações e administração predial, com atenção especial aos detalhes.',
         photo: '/src/assets/team/adriana.jpg',
         creci: 'CRECI/RJ 11223',
-        email: 'adriana@vagnereluiz.com.br',
+        email: 'adriana@vagnerluizadriana.com.br',
         phone: '22992635403'
       }
     ],
     footer: {
-      copyright: '© 2024 Vagner e Luiz Corretores de Imóveis. Todos os direitos reservados.',
+      copyright: '© 2024 Vagner, Luiz e Adriana Corretores de Imóveis. Todos os direitos reservados.',
       developedBy: {
         text: 'Desenvolvido e publicado por SGR Desenvolvimento',
         link: 'https://sgr.dev.br'
@@ -130,29 +130,24 @@ const defaultSettings = {
     }
   },
   seoSettings: {
-    siteName: 'Vagner e Luiz Corretores de Imóveis',
+    siteName: 'Vagner, Luiz e Adriana Corretores de Imóveis',
     siteDescription: 'Encontre o imóvel dos seus sonhos em Miracema e região. Mais de 10 anos de experiência em compra, venda e locação de imóveis.',
     keywords: [
       'imóveis Miracema',
       'corretores Miracema',
       'casas para venda',
       'apartamentos para locação',
-      'imobiliária RJ',
-      'Vagner e Luiz',
+      'corretores RJ',
+      'Vagner, Luiz e Adriana',
       'corretor de imóveis'
     ],
-    author: 'Vagner e Luiz Corretores de Imóveis',
+    author: 'Vagner, Luiz e Adriana Corretores de Imóveis',
     ogImage: '/src/assets/og-image.jpg',
     favicon: '/src/assets/favicon.ico',
     googleAnalytics: 'G-XXXXXXXXXX',
     googleTagManager: 'GTM-XXXXXXX'
   },
   systemSettings: {
-    maintenance: {
-      enabled: false,
-      message: 'Site em manutenção. Voltaremos em breve!',
-      allowedIPs: ['127.0.0.1']
-    },
     email: {
       provider: 'smtp' as const,
       settings: {

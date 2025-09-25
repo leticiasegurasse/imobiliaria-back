@@ -2,7 +2,7 @@
 
 ## Visão Geral
 
-A API de Propriedades permite gerenciar o portfólio de imóveis da imobiliária, incluindo operações CRUD completas, filtros avançados e funcionalidades específicas como destaque e imóvel do mês.
+A API de Propriedades permite gerenciar o portfólio de imóveis dos corretores, incluindo operações CRUD completas, filtros avançados e funcionalidades específicas como destaque e imóvel do mês.
 
 ## Endpoints
 

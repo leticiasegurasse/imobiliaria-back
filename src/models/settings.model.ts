@@ -100,11 +100,6 @@ interface SettingsAttributes {
         facebookPixel?: string;
     };
     systemSettings: {
-        maintenance: {
-            enabled: boolean;
-            message?: string;
-            allowedIPs?: string[];
-        };
         email: {
             provider: 'smtp' | 'sendgrid' | 'mailgun';
             settings: {

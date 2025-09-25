@@ -99,11 +99,6 @@ interface SettingsUpdateRequest {
         facebookPixel?: string;
     };
     systemSettings?: {
-        maintenance?: {
-            enabled?: boolean;
-            message?: string;
-            allowedIPs?: string[];
-        };
         email?: {
             provider?: 'smtp' | 'sendgrid' | 'mailgun';
             settings?: {
@@ -247,9 +242,6 @@ export const updateSettings = async (req: Request, res: Response) => {
                     author: ''
                 },
                 systemSettings: {
-                    maintenance: {
-                        enabled: false
-                    },
                     email: {
                         provider: 'smtp' as const,
                         settings: {},

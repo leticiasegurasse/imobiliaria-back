@@ -30,7 +30,7 @@ export const updateSettingsWithGoogleMaps = async () => {
         ...currentData.companyInfo,
         address: {
           ...currentData.companyInfo.address,
-          googleMapsEmbed: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4202.816849559726!2d-42.1990069!3d-21.415791900000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xbce04b016934d7%3A0x84d564ec6ecab03f!2sVagner%20e%20Luiz%20Corretores%20de%20Im%C3%B3veis!5e1!3m2!1spt-BR!2sbr!4v1757199837614!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+          googleMapsEmbed: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4202.816849559726!2d-42.1990069!3d-21.415791900000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xbce04b016934d7%3A0x84d564ec6ecab03f!2sVagner%2C%20Luiz%20e%20Adriana%20Corretores%20de%20Im%C3%B3veis!5e1!3m2!1spt-BR!2sbr!4v1757199837614!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
         }
       }
     };

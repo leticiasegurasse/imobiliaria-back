@@ -5,7 +5,7 @@ interface PropertyAttributes {
   id: string;
   titulo: string;
   descricao: string;
-  tipo: string;
+  tipo_id: string;
   finalidade: 'Venda' | 'Aluguel';
   valor: number;
   bairro: string;
@@ -30,7 +30,7 @@ class Property extends Model<PropertyAttributes, PropertyCreationAttributes> imp
   public id!: string;
   public titulo!: string;
   public descricao!: string;
-  public tipo!: string;
+  public tipo_id!: string;
   public finalidade!: 'Venda' | 'Aluguel';
   public valor!: number;
   public bairro!: string;
@@ -83,16 +83,12 @@ const PropertyFactory = (sequelize: Sequelize) => {
         }
       }
     },
-    tipo: {
-      type: DataTypes.STRING(50),
+    tipo_id: {
+      type: DataTypes.UUID,
       allowNull: false,
       validate: {
         notEmpty: {
           msg: 'Tipo é obrigatório'
-        },
-        isIn: {
-          args: [['Casa', 'Apartamento', 'Cobertura', 'Kitnet', 'Loft', 'Sobrado', 'Chácara', 'Sítio', 'Terreno', 'Sala Comercial', 'Loja', 'Galpão', 'Prédio Comercial']],
-          msg: 'Tipo inválido'
         }
       }
     },
@@ -220,7 +216,7 @@ const PropertyFactory = (sequelize: Sequelize) => {
         fields: ['status']
       },
       {
-        fields: ['tipo']
+        fields: ['tipo_id']
       },
       {
         fields: ['finalidade']

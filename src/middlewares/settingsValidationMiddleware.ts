@@ -249,17 +249,6 @@ export const validateSettingsUpdate = [
     .withMessage('Google Tag Manager deve estar no formato GTM-XXXXXXX'),
 
   // Validações para systemSettings
-  body('systemSettings.maintenance.enabled')
-    .optional()
-    .isBoolean()
-    .withMessage('Status de manutenção deve ser um valor booleano'),
-  
-  body('systemSettings.maintenance.message')
-    .optional()
-    .isLength({ min: 10, max: 500 })
-    .withMessage('Mensagem de manutenção deve ter entre 10 e 500 caracteres')
-    .trim(),
-  
   body('systemSettings.email.provider')
     .optional()
     .isIn(['smtp', 'sendgrid', 'mailgun'])

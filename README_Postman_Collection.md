@@ -1,6 +1,6 @@
-# 📋 Collection Postman - Imobiliária Vagner & Luiz
+# 📋 Collection Postman - Vagner, Luiz e Adriana Corretores
 
-Esta collection do Postman contém todas as rotas da API da Imobiliária Vagner & Luiz, organizadas por categorias para facilitar o teste e desenvolvimento.
+Esta collection do Postman contém todas as rotas da API dos Corretores Vagner, Luiz e Adriana, organizadas por categorias para facilitar o teste e desenvolvimento.
 
 ## 📁 Arquivos Incluídos
 
@@ -13,7 +13,7 @@ Esta collection do Postman contém todas as rotas da API da Imobiliária Vagner 
 1. Abra o Postman
 2. Clique em "Import" no canto superior esquerdo
 3. Selecione os arquivos `.json` da collection e environment
-4. Configure o environment "Imobiliária Vagner & Luiz - Environment"
+4. Configure o environment "Vagner, Luiz e Adriana Corretores - Environment"
 
 ## ⚙️ Configuração do Environment
 
@@ -202,4 +202,4 @@ Para dúvidas ou problemas:
 
 ---
 
-**Desenvolvido para Imobiliária Vagner & Luiz** 🏠
+**Desenvolvido para Vagner, Luiz e Adriana Corretores** 🏠

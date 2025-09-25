@@ -65,5 +65,9 @@ if (process.env.NODE_ENV !== 'production') {
 City.hasMany(Neighborhood, { foreignKey: 'cidade_id', as: 'bairros' });
 Neighborhood.belongsTo(City, { foreignKey: 'cidade_id', as: 'cidade' });
 
+// Relação entre Property e PropertyType
+PropertyType.hasMany(Property, { foreignKey: 'tipo_id', as: 'propriedades' });
+Property.belongsTo(PropertyType, { foreignKey: 'tipo_id', as: 'tipo' });
+
 export { sequelize, User, Property, City, Neighborhood, PropertyType, Settings };
 export default sequelize;

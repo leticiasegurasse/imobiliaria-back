@@ -35,11 +35,11 @@ export const validateCreateProperty = [
     .withMessage('Descrição deve ter entre 10 e 2000 caracteres')
     .trim(),
   
-  body('tipo')
+  body('tipo_id')
     .notEmpty()
     .withMessage('Tipo é obrigatório')
-    .isIn(['Casa', 'Apartamento', 'Cobertura', 'Kitnet', 'Loft', 'Sobrado', 'Chácara', 'Sítio', 'Terreno', 'Sala Comercial', 'Loja', 'Galpão', 'Prédio Comercial'])
-    .withMessage('Tipo inválido'),
+    .isUUID()
+    .withMessage('Tipo deve ser um ID válido'),
   
   body('finalidade')
     .notEmpty()
@@ -153,8 +153,9 @@ export const validateUpdateProperty = [
   
   body('tipo')
     .optional()
-    .isIn(['Casa', 'Apartamento', 'Cobertura', 'Kitnet', 'Loft', 'Sobrado', 'Chácara', 'Sítio', 'Terreno', 'Sala Comercial', 'Loja', 'Galpão', 'Prédio Comercial'])
-    .withMessage('Tipo inválido'),
+    .isLength({ min: 2, max: 50 })
+    .withMessage('Tipo deve ter entre 2 e 50 caracteres')
+    .trim(),
   
   body('finalidade')
     .optional()
@@ -267,8 +268,8 @@ export const validatePropertyFilters = [
   
   query('tipo')
     .optional()
-    .isIn(['Casa', 'Apartamento', 'Cobertura', 'Kitnet', 'Loft', 'Sobrado', 'Chácara', 'Sítio', 'Terreno', 'Sala Comercial', 'Loja', 'Galpão', 'Prédio Comercial'])
-    .withMessage('Tipo inválido'),
+    .isLength({ min: 1, max: 50 })
+    .withMessage('Tipo deve ter entre 1 e 50 caracteres'),
   
   query('finalidade')
     .optional()

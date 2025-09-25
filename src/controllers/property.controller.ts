@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Property } from '../config/db';
+import { Property, PropertyType } from '../config/db';
 import { Op } from 'sequelize';
 
 // Interface para filtros de busca
@@ -69,7 +69,19 @@ export const getAllProperties = async (req: Request, res: Response) => {
 
     // Filtros específicos
     if (status) where.status = status;
-    if (tipo) where.tipo = tipo;
+    if (tipo) {
+      const tipoString = String(tipo);
+      // Se tipo é um UUID, usar diretamente
+      if (tipoString.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
+        where.tipo_id = tipoString;
+      } else {
+        // Se tipo é um nome, buscar o ID correspondente
+        const propertyType = await PropertyType.findOne({ where: { nome: tipoString } });
+        if (propertyType) {
+          where.tipo_id = propertyType.id;
+        }
+      }
+    }
     if (finalidade) where.finalidade = finalidade;
     if (cidade) where.cidade = cidade;
     if (bairro) where.bairro = bairro;
@@ -106,6 +118,13 @@ export const getAllProperties = async (req: Request, res: Response) => {
       order,
       limit: limitNum,
       offset,
+      include: [
+        {
+          model: PropertyType,
+          as: 'tipo',
+          attributes: ['id', 'nome', 'categoria']
+        }
+      ]
     });
 
     // Calcular estatísticas
@@ -236,7 +255,7 @@ export const createProperty = async (req: Request, res: Response) => {
     const property = await Property.create({
       titulo,
       descricao,
-      tipo,
+      tipo_id: tipo,
       finalidade,
       valor: parseFloat(valor),
       bairro,
