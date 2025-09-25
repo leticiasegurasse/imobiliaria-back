@@ -16,14 +16,17 @@ WORKDIR /app
 # Copiar package files primeiro (para cache do Docker)
 COPY package*.json ./
 
-# Instalar dependências de produção
-RUN npm ci --only=production && npm cache clean --force
+# Instalar todas as dependências (incluindo devDependencies para build)
+RUN npm ci && npm cache clean --force
 
 # Copiar código fonte
 COPY . .
 
 # Build da aplicação
 RUN npm run build
+
+# Remover devDependencies após o build para reduzir tamanho da imagem
+RUN npm prune --production
 
 # Criar diretório de uploads
 RUN mkdir -p uploads && chmod 755 uploads
