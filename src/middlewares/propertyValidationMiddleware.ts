@@ -86,8 +86,8 @@ export const validateCreateProperty = [
   body('banheiros')
     .notEmpty()
     .withMessage('Número de banheiros é obrigatório')
-    .isInt({ min: 1, max: 20 })
-    .withMessage('Número de banheiros deve ser entre 1 e 20'),
+    .isInt({ min: 0, max: 20 })
+    .withMessage('Número de banheiros deve ser entre 0 e 20'),
   
   body('vagas')
     .notEmpty()
@@ -195,8 +195,8 @@ export const validateUpdateProperty = [
   
   body('banheiros')
     .optional()
-    .isInt({ min: 1, max: 20 })
-    .withMessage('Número de banheiros deve ser entre 1 e 20'),
+    .isInt({ min: 0, max: 20 })
+    .withMessage('Número de banheiros deve ser entre 0 e 20'),
   
   body('vagas')
     .optional()
@@ -323,8 +323,8 @@ export const validatePropertyFilters = [
   
   query('banheiros')
     .optional()
-    .isInt({ min: 1, max: 20 })
-    .withMessage('Número de banheiros deve ser entre 1 e 20'),
+    .isInt({ min: 0, max: 20 })
+    .withMessage('Número de banheiros deve ser entre 0 e 20'),
   
   query('vagas')
     .optional()

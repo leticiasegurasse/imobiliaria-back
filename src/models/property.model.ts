@@ -157,11 +157,11 @@ const PropertyFactory = (sequelize: Sequelize) => {
     banheiros: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 1,
+      defaultValue: 0,
       validate: {
         min: {
-          args: [1],
-          msg: 'Deve ter pelo menos 1 banheiro'
+          args: [0],
+          msg: 'Número de banheiros não pode ser negativo'
         },
         max: {
           args: [20],
