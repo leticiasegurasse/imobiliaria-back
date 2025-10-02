@@ -172,7 +172,15 @@ export const getPropertyById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const property = await Property.findByPk(id);
+    const property = await Property.findByPk(id, {
+      include: [
+        {
+          model: PropertyType,
+          as: 'tipo',
+          attributes: ['id', 'nome', 'categoria']
+        }
+      ]
+    });
 
     if (!property) {
       return res.status(404).json({
@@ -209,7 +217,7 @@ export const createProperty = async (req: Request, res: Response) => {
     const {
       titulo,
       descricao,
-      tipo,
+      tipo_id,
       finalidade,
       valor,
       bairro,
@@ -223,6 +231,14 @@ export const createProperty = async (req: Request, res: Response) => {
       imovel_do_mes,
       status
     } = req.body;
+
+    // Validar se tipo_id foi fornecido
+    if (!tipo_id) {
+      return res.status(400).json({
+        success: false,
+        message: 'Tipo de imóvel é obrigatório'
+      });
+    }
 
     // Validar se pelo menos uma imagem foi fornecida
     if (!imagens || !Array.isArray(imagens) || imagens.length === 0) {
@@ -255,7 +271,7 @@ export const createProperty = async (req: Request, res: Response) => {
     const property = await Property.create({
       titulo,
       descricao,
-      tipo_id: tipo,
+      tipo_id,
       finalidade,
       valor: parseFloat(valor),
       bairro,
